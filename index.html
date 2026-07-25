@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VOZDURAKET</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal-overlay">
+    <div class="auth-card">
+      <h1 class="orbitron auth-logo">VOZDURAKET</h1>
+      
+      <!-- Login Form -->
+      <form id="login-form" class="auth-form" onsubmit="event.preventDefault();">
+        <div class="input-group">
+          <input type="text" id="login-nickname" placeholder="@nickname" required autocomplete="off">
+        </div>
+        <div class="input-group">
+          <input type="password" id="login-password" placeholder="Пароль" required>
+        </div>
+        <button type="submit" id="btn-login" class="btn-primary auth-btn">ВОЙТИ</button>
+        <a href="#" id="btn-show-register" class="auth-link">Создать аккаунт</a>
+      </form>
+      
+      <!-- Register Form (Hidden by default) -->
+      <form id="register-form" class="auth-form hidden" onsubmit="event.preventDefault();">
+        <div class="input-group">
+          <input type="text" id="register-display-name" placeholder="Имя" required autocomplete="off">
+        </div>
+        <div class="input-group">
+          <input type="text" id="register-nickname" placeholder="@nickname" required autocomplete="off">
+        </div>
+        <div class="input-group">
+          <input type="password" id="register-password" placeholder="Пароль" required>
+        </div>
+        <button type="submit" id="btn-register" class="btn-primary auth-btn">СОЗДАТЬ АККАУНТ</button>
+        <a href="#" id="btn-show-login" class="auth-link">Уже есть аккаунт</a>
+      </form>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header id="header" class="hidden">
+    <div class="header-left">
+      <div class="logo-small orbitron">VOZDURAKET</div>
+      <div class="desktop-nav">
+        <div class="nav-item" data-game="crash"><i class="fa-solid fa-rocket"></i><span>Краш</span></div>
+        <div class="nav-item" data-game="cases"><i class="fa-solid fa-box-open"></i><span>Кейсы</span></div>
+        <div class="nav-item" data-game="upgrade"><i class="fa-solid fa-arrow-up"></i><span>Апгрейд</span></div>
+        <div class="nav-item" data-game="double"><i class="fa-solid fa-circle-half-stroke"></i><span>Рулетка</span></div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div id="user-profile-btn" class="user-profile-btn">
+        <div class="balance-container-inline">
+          <i class="fa-solid fa-wallet balance-icon"></i>
+          <span id="user-balance" class="orbitron">0</span> <span class="currency">₽</span>
+        </div>
+        <div class="user-avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+      </div>
+      <!-- Dropdown Menu -->
+      <div id="user-dropdown" class="user-dropdown hidden">
+        <div class="dropdown-header">
+          <span id="user-name" class="dropdown-username">@nickname</span>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="mode-switcher">
+          <span class="mode-title">Режим игры</span>
+          <select id="rtp-mode-select" class="mode-select">
+            <option value="casino">😈 Казино</option>
+            <option value="honest">⚖️ Честный</option>
+            <option value="boost">🚀 Буст</option>
+          </select>
+        </div>
+        <div class="dropdown-divider"></div>
+        <button id="btn-bonus" class="dropdown-item dropdown-bonus">
+          <i class="fa-solid fa-gift"></i> Получить 1000₽ (Бонус)
+        </button>
+        <button id="btn-leaderboard" class="dropdown-item">
+          <i class="fa-solid fa-trophy"></i> Лидерборд
+        </button>
+        <div class="dropdown-divider"></div>
+        <button id="btn-logout" class="dropdown-item dropdown-logout">
+          <i class="fa-solid fa-right-from-bracket"></i> Выход
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main id="main-content">
+    
+    <!-- Game: Crash -->
+    <div id="game-crash" class="game-container hidden">
+      <div class="crash-board">
+        <div class="crash-info">
+          <span id="crash-multiplier" class="orbitron">1.00x</span>
+          <span id="crash-status" class="status-text">Ожидание...</span>
+        </div>
+        <canvas id="crash-canvas"></canvas>
+      </div>
+      
+      <div class="crash-history-container">
+        <div id="crash-history" class="crash-history"></div>
+      </div>
+      
+      <div class="crash-controls game-controls">
+        <div class="control-row">
+          <div class="bet-input-group">
+            <input type="number" id="crash-bet-input" value="100" min="1" step="1">
+          </div>
+          <!-- Пункт 2: кнопки вынесены ПОД инпут — не перекрывают цифры -->
+          <div class="quick-bets-row">
+            <button id="crash-btn-half" class="quick-btn">½</button>
+            <button id="crash-btn-double" class="quick-btn">×2</button>
+            <button id="crash-btn-max" class="quick-btn">MAX</button>
+          </div>
+          <div class="auto-cashout-group">
+            <label for="crash-auto-cashout">Авто-вывод:</label>
+            <input type="number" id="crash-auto-cashout" placeholder="2.00" step="0.01" min="1.01">
+          </div>
+        </div>
+        <button id="crash-btn-play" class="btn-primary play-btn">СТАВКА</button>
+      </div>
+    </div>
+
+    <!-- Game: Cases -->
+    <div id="game-cases" class="game-container hidden">
+
+      <!-- Cases main menu grid -->
+      <div id="cases-menu" class="cases-grid">
+        <div class="cases-tile" data-case="spain">
+          <div class="cases-tile-icon"><img src="assets/SPAINcase.PNG" alt="ИСПАНИЯ"></div>
+          <div class="cases-tile-name">ИСПАНИЯ</div>
+          <div class="cases-tile-price orbitron">1000 ₽</div>
+        </div>
+        <div class="cases-tile" data-case="argentina">
+          <div class="cases-tile-icon"><img src="assets/ARGENTINAcase.PNG" alt="АРГЕНТИНА"></div>
+          <div class="cases-tile-name">АРГЕНТИНА</div>
+          <div class="cases-tile-price orbitron">1000 ₽</div>
+        </div>
+        <div class="cases-tile" data-case="sotka">
+          <div class="cases-tile-icon">📦</div>
+          <div class="cases-tile-name">Сотка</div>
+          <div class="cases-tile-price orbitron">100 ₽</div>
+        </div>
+        <div class="cases-tile" data-case="pyzh">
+          <div class="cases-tile-icon">🔥</div>
+          <div class="cases-tile-name">Пыжик</div>
+          <div class="cases-tile-price orbitron">500 ₽</div>
+        </div>
+        <div class="cases-tile" data-case="basic">
+          <div class="cases-tile-icon">💼</div>
+          <div class="cases-tile-name">Базовый</div>
+          <div class="cases-tile-price orbitron">1000 ₽</div>
+        </div>
+        <div class="cases-tile" data-case="power">
+          <div class="cases-tile-icon">⚡</div>
+          <div class="cases-tile-name">Мощь</div>
+          <div class="cases-tile-price orbitron">5000 ₽</div>
+        </div>
+      </div>
+
+      <!-- Case opening inner (hidden until tile clicked) -->
+      <div id="cases-inner" class="hidden">
+        <div class="cases-inner-header">
+          <div style="display: flex; align-items: center; gap: 15px;">
+            <button id="cases-back-btn" class="cases-back-btn">← Назад</button>
+            <span id="cases-inner-title" class="orbitron cases-inner-title"></span>
+          </div>
+          <button id="btn-chances" class="chances-btn">Шансы ?</button>
+        </div>
+
+        <!-- Roulette -->
+        <div class="cases-roulette-wrapper">
+          <div id="cases-marker"></div>
+          <div id="cases-roulette">
+            <div id="cases-roulette-inner"></div>
+          </div>
+        </div>
+
+        <div id="cases-result" class="result-display hidden"></div>
+
+        <button id="cases-btn-open" class="btn-primary play-btn">ОТКРЫТЬ КЕЙС</button>
+      </div>
+    </div>
+
+    <!-- Game: Upgrade -->
+    <div id="game-upgrade" class="game-container hidden">
+      <div class="upgrade-display">
+        <div class="upgrade-canvas-container">
+          <canvas id="upgrade-canvas"></canvas>
+          <div id="upgrade-chance" class="orbitron">50.00%</div>
+        </div>
+        <div id="upgrade-result" class="result-text hidden"></div>
+      </div>
+      
+      <div class="upgrade-controls game-controls">
+        <div class="control-row">
+          <div class="upgrade-input-group">
+            <label>Ставка ₽</label>
+            <input type="number" id="upgrade-bet-input" value="100" min="10" step="1">
+          </div>
+          <!-- Пункт 2: кнопки апгрейда под инпутом -->
+          <div class="quick-bets-row">
+            <button id="upgrade-btn-half" class="quick-btn">½</button>
+            <button id="upgrade-btn-double" class="quick-btn">×2</button>
+            <button id="upgrade-btn-max" class="quick-btn">MAX</button>
+          </div>
+          <div class="upgrade-input-group">
+            <label>Цель ₽</label>
+            <input type="number" id="upgrade-target-input" value="200" min="20" step="1"
+              onblur="window.validateUpgradeTarget && window.validateUpgradeTarget()">
+          </div>
+        </div>
+        <!-- Chance presets -->
+        <div class="upgrade-presets">
+          <button class="preset-btn" data-pct="33">33%</button>
+          <button class="preset-btn" data-pct="50">50%</button>
+          <button class="preset-btn" data-pct="75">75%</button>
+        </div>
+        <button id="upgrade-btn-go" class="btn-primary play-btn">АПГРЕЙД</button>
+      </div>
+    </div>
+
+    <!-- Game: Double -->
+    <div id="game-double" class="game-container hidden">
+      <div class="double-history-container">
+        <div id="double-history" class="double-history"></div>
+      </div>
+      
+      <div class="double-roulette-wrapper">
+        <div id="double-marker"></div>
+        <div id="double-roulette">
+          <div id="double-roulette-inner">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="double-controls game-controls">
+        <div class="bet-input-group full-width">
+          <input type="number" id="double-bet-input" value="100" min="1" step="1">
+        </div>
+        <!-- Пункт 2: кнопки рулетки под инпутом -->
+        <div class="quick-bets-row">
+          <button id="double-btn-half" class="quick-btn">½</button>
+          <button id="double-btn-double" class="quick-btn">×2</button>
+          <button id="double-btn-max" class="quick-btn">MAX</button>
+        </div>
+        <div class="double-buttons">
+          <button id="double-btn-red" class="btn-red bet-btn">КРАСНОЕ</button>
+          <button id="double-btn-green" class="btn-green bet-btn">ЗЕРО</button>
+          <button id="double-btn-black" class="btn-black bet-btn">ЧЁРНОЕ</button>
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+          <button id="btn-double-chances" class="chances-btn" style="background: transparent; border: none; font-size: 0.9rem; text-decoration: underline; cursor: pointer; color: var(--text-muted);">Шансы ?</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav id="bottom-nav" class="hidden">
+    <div class="nav-item" data-game="crash">
+      <i class="fa-solid fa-rocket"></i>
+      <span>Краш</span>
+    </div>
+    <div class="nav-item" data-game="cases">
+      <i class="fa-solid fa-box-open"></i>
+      <span>Кейсы</span>
+    </div>
+    <div class="nav-item" data-game="upgrade">
+      <i class="fa-solid fa-arrow-up"></i>
+      <span>Апгрейд</span>
+    </div>
+    <div class="nav-item" data-game="double">
+      <i class="fa-solid fa-circle-half-stroke"></i>
+      <span>Рулетка</span>
+    </div>
+  </nav>
+
+  <!-- Leaderboard Modal -->
+  <div id="leaderboard-modal" class="modal-overlay hidden">
+    <div class="modal-card leaderboard-card">
+      <div class="modal-header">
+        <h2>ТОП ИГРОКОВ</h2>
+        <button id="leaderboard-close" class="close-btn">&times;</button>
+      </div>
+      
+      <div class="leaderboard-tabs">
+        <button class="lb-tab active" data-tab="all">Общий</button>
+        <button class="lb-tab" data-tab="casino">Казино 😈</button>
+        <button class="lb-tab" data-tab="honest">Честный ⚖️</button>
+        <button class="lb-tab" data-tab="boost">Буст 🚀</button>
+      </div>
+
+      <div class="search-container">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" id="leaderboard-search" placeholder="Поиск по @nickname...">
+      </div>
+      <div class="leaderboard-container">
+        <div id="leaderboard-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chances Modal -->
+  <div id="chances-modal" class="modal-overlay hidden">
+    <div class="modal-card leaderboard-card">
+      <div class="modal-header">
+        <h2>ШАНСЫ</h2>
+        <button id="chances-close" class="close-btn">&times;</button>
+      </div>
+      <div class="leaderboard-container">
+        <!-- Prizes grid -->
+        <div id="cases-prizes-grid" class="cases-prizes-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirm Modal -->
+  <div id="confirm-modal" class="modal-overlay hidden">
+    <div class="modal-card confirm-card" style="text-align: center;">
+      <h2 style="margin-bottom: 15px; color: var(--red);">ВНИМАНИЕ!</h2>
+      <p style="margin-bottom: 20px; line-height: 1.5; color: var(--text);">Смена режима обнулит твой текущий баланс и рекорд до 1000 ₽.<br><br>Продолжить?</p>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button id="confirm-btn-yes" class="btn-primary" style="flex: 1;">ДА</button>
+        <button id="confirm-btn-no" class="btn-primary" style="flex: 1; background: var(--bg-lighter); color: #fff; box-shadow: none;">ОТМЕНА</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification System (toast container) -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="crash.js"></script>
+  <script type="module" src="cases.js"></script>
+  <script type="module" src="upgrade.js"></script>
+  <script type="module" src="double.js"></script>
+
+</body>
+</html>

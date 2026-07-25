@@ -1,0 +1,1453 @@
+// ==========================================
+// GAME LOGIC MODULE (BACKEND READY)
+// ==========================================
+
+function getRtpMode() {
+    return (window.userData && window.userData.rtpMode) ? window.userData.rtpMode : 'casino';
+}
+
+class CaseModule {
+  static getCasesData() {
+    return {
+    "sotka": {
+        "casino": [
+            {
+                "name": "Утешение 10 ₽",
+                "win": 10,
+                "chance": 30.305
+            },
+            {
+                "name": "Сейф 60 ₽",
+                "win": 60,
+                "chance": 48.878
+            },
+            {
+                "name": "Сейф 140 ₽",
+                "win": 140,
+                "chance": 14.785
+            },
+            {
+                "name": "Топ 500 ₽",
+                "win": 500,
+                "chance": 5.914
+            },
+            {
+                "name": "Джекпот",
+                "win": 2000,
+                "chance": 0.118
+            }
+        ],
+        "honest": [
+            {
+                "name": "Утешение 10 ₽",
+                "win": 10,
+                "chance": 27.596
+            },
+            {
+                "name": "Сейф 60 ₽",
+                "win": 60,
+                "chance": 44.511
+            },
+            {
+                "name": "Сейф 140 ₽",
+                "win": 140,
+                "chance": 19.811
+            },
+            {
+                "name": "Топ 500 ₽",
+                "win": 500,
+                "chance": 7.924
+            },
+            {
+                "name": "Джекпот",
+                "win": 2000,
+                "chance": 0.158
+            }
+        ],
+        "boost": [
+            {
+                "name": "Утешение 10 ₽",
+                "win": 10,
+                "chance": 24.673
+            },
+            {
+                "name": "Сейф 60 ₽",
+                "win": 60,
+                "chance": 39.796
+            },
+            {
+                "name": "Сейф 140 ₽",
+                "win": 140,
+                "chance": 25.235
+            },
+            {
+                "name": "Топ 500 ₽",
+                "win": 500,
+                "chance": 10.094
+            },
+            {
+                "name": "Джекпот",
+                "win": 2000,
+                "chance": 0.202
+            }
+        ]
+    },
+    "pyzh": {
+        "casino": [
+            {
+                "name": "Утешение 25 ₽",
+                "win": 25,
+                "chance": 4.4
+            },
+            {
+                "name": "Утешение 50 ₽",
+                "win": 50,
+                "chance": 13.383
+            },
+            {
+                "name": "Сейф 250 ₽",
+                "win": 250,
+                "chance": 19.998
+            },
+            {
+                "name": "Сейф 350 ₽",
+                "win": 350,
+                "chance": 20
+            },
+            {
+                "name": "Сейф 450 ₽",
+                "win": 450,
+                "chance": 16.317
+            },
+            {
+                "name": "Сейф 550 ₽",
+                "win": 550,
+                "chance": 7.777
+            },
+            {
+                "name": "Сейф 650 ₽",
+                "win": 650,
+                "chance": 6.466
+            },
+            {
+                "name": "Топ 800 ₽",
+                "win": 800,
+                "chance": 7.232
+            },
+            {
+                "name": "Топ 1300 ₽",
+                "win": 1300,
+                "chance": 4.328
+            },
+            {
+                "name": "Джекпот",
+                "win": 25000,
+                "chance": 0.099
+            }
+        ],
+        "honest": [
+            {
+                "name": "Утешение 25 ₽",
+                "win": 25,
+                "chance": 3.491
+            },
+            {
+                "name": "Утешение 50 ₽",
+                "win": 50,
+                "chance": 10.62
+            },
+            {
+                "name": "Сейф 250 ₽",
+                "win": 250,
+                "chance": 15.869
+            },
+            {
+                "name": "Сейф 350 ₽",
+                "win": 350,
+                "chance": 15.869
+            },
+            {
+                "name": "Сейф 450 ₽",
+                "win": 450,
+                "chance": 15.868
+            },
+            {
+                "name": "Сейф 550 ₽",
+                "win": 550,
+                "chance": 11.494
+            },
+            {
+                "name": "Сейф 650 ₽",
+                "win": 650,
+                "chance": 9.557
+            },
+            {
+                "name": "Топ 800 ₽",
+                "win": 800,
+                "chance": 10.689
+            },
+            {
+                "name": "Топ 1300 ₽",
+                "win": 1300,
+                "chance": 6.396
+            },
+            {
+                "name": "Джекпот",
+                "win": 25000,
+                "chance": 0.147
+            }
+        ],
+        "boost": [
+            {
+                "name": "Утешение 25 ₽",
+                "win": 25,
+                "chance": 2.872
+            },
+            {
+                "name": "Утешение 50 ₽",
+                "win": 50,
+                "chance": 8.736
+            },
+            {
+                "name": "Сейф 250 ₽",
+                "win": 250,
+                "chance": 13.054
+            },
+            {
+                "name": "Сейф 350 ₽",
+                "win": 350,
+                "chance": 13.054
+            },
+            {
+                "name": "Сейф 450 ₽",
+                "win": 450,
+                "chance": 13.054
+            },
+            {
+                "name": "Сейф 550 ₽",
+                "win": 550,
+                "chance": 13.054
+            },
+            {
+                "name": "Сейф 650 ₽",
+                "win": 650,
+                "chance": 12.905
+            },
+            {
+                "name": "Топ 800 ₽",
+                "win": 800,
+                "chance": 14.435
+            },
+            {
+                "name": "Топ 1300 ₽",
+                "win": 1300,
+                "chance": 8.637
+            },
+            {
+                "name": "Джекпот",
+                "win": 25000,
+                "chance": 0.199
+            }
+        ]
+    },
+    "basic": {
+        "casino": [
+            {
+                "win": 50,
+                "chance": 4.941
+            },
+            {
+                "win": 100,
+                "chance": 4.941
+            },
+            {
+                "win": 150,
+                "chance": 4.941
+            },
+            {
+                "win": 200,
+                "chance": 4.941
+            },
+            {
+                "win": 250,
+                "chance": 4.941
+            },
+            {
+                "win": 300,
+                "chance": 4.235
+            },
+            {
+                "win": 400,
+                "chance": 2.823
+            },
+            {
+                "win": 500,
+                "chance": 8.046
+            },
+            {
+                "win": 600,
+                "chance": 8.046
+            },
+            {
+                "win": 700,
+                "chance": 8.469
+            },
+            {
+                "win": 800,
+                "chance": 8.47
+            },
+            {
+                "win": 900,
+                "chance": 7.167
+            },
+            {
+                "win": 1000,
+                "chance": 5.093
+            },
+            {
+                "win": 1100,
+                "chance": 3.726
+            },
+            {
+                "win": 1200,
+                "chance": 3.195
+            },
+            {
+                "win": 1300,
+                "chance": 3.195
+            },
+            {
+                "win": 1400,
+                "chance": 3.088
+            },
+            {
+                "win": 1500,
+                "chance": 3.088
+            },
+            {
+                "win": 1600,
+                "chance": 1.331
+            },
+            {
+                "win": 1800,
+                "chance": 1.065
+            },
+            {
+                "win": 2000,
+                "chance": 1.065
+            },
+            {
+                "win": 2500,
+                "chance": 0.799
+            },
+            {
+                "win": 3000,
+                "chance": 0.639
+            },
+            {
+                "win": 3500,
+                "chance": 0.426
+            },
+            {
+                "win": 4000,
+                "chance": 0.532
+            },
+            {
+                "win": 5000,
+                "chance": 0.319
+            },
+            {
+                "win": 7500,
+                "chance": 0.16
+            },
+            {
+                "win": 10000,
+                "chance": 0.106
+            },
+            {
+                "win": 15000,
+                "chance": 0.106
+            },
+            {
+                "win": 50000,
+                "chance": 0.106
+            }
+        ],
+        "honest": [
+            {
+                "win": 50,
+                "chance": 0.785
+            },
+            {
+                "win": 100,
+                "chance": 0.785
+            },
+            {
+                "win": 150,
+                "chance": 0.785
+            },
+            {
+                "win": 200,
+                "chance": 0.785
+            },
+            {
+                "win": 250,
+                "chance": 0.785
+            },
+            {
+                "win": 300,
+                "chance": 0.673
+            },
+            {
+                "win": 400,
+                "chance": 0.449
+            },
+            {
+                "win": 500,
+                "chance": 1.278
+            },
+            {
+                "win": 600,
+                "chance": 1.278
+            },
+            {
+                "win": 700,
+                "chance": 1.346
+            },
+            {
+                "win": 800,
+                "chance": 1.346
+            },
+            {
+                "win": 900,
+                "chance": 1.346
+            },
+            {
+                "win": 1000,
+                "chance": 82.214
+            },
+            {
+                "win": 1100,
+                "chance": 0.997
+            },
+            {
+                "win": 1200,
+                "chance": 0.855
+            },
+            {
+                "win": 1300,
+                "chance": 0.855
+            },
+            {
+                "win": 1400,
+                "chance": 0.827
+            },
+            {
+                "win": 1500,
+                "chance": 0.827
+            },
+            {
+                "win": 1600,
+                "chance": 0.356
+            },
+            {
+                "win": 1800,
+                "chance": 0.285
+            },
+            {
+                "win": 2000,
+                "chance": 0.285
+            },
+            {
+                "win": 2500,
+                "chance": 0.214
+            },
+            {
+                "win": 3000,
+                "chance": 0.171
+            },
+            {
+                "win": 3500,
+                "chance": 0.114
+            },
+            {
+                "win": 4000,
+                "chance": 0.143
+            },
+            {
+                "win": 5000,
+                "chance": 0.086
+            },
+            {
+                "win": 7500,
+                "chance": 0.043
+            },
+            {
+                "win": 10000,
+                "chance": 0.029
+            },
+            {
+                "win": 15000,
+                "chance": 0.029
+            },
+            {
+                "win": 50000,
+                "chance": 0.029
+            }
+        ],
+        "boost": [
+            {
+                "win": 50,
+                "chance": 3.538
+            },
+            {
+                "win": 100,
+                "chance": 3.538
+            },
+            {
+                "win": 150,
+                "chance": 3.538
+            },
+            {
+                "win": 200,
+                "chance": 3.538
+            },
+            {
+                "win": 250,
+                "chance": 3.538
+            },
+            {
+                "win": 300,
+                "chance": 3.032
+            },
+            {
+                "win": 400,
+                "chance": 2.022
+            },
+            {
+                "win": 500,
+                "chance": 5.762
+            },
+            {
+                "win": 600,
+                "chance": 5.762
+            },
+            {
+                "win": 700,
+                "chance": 6.065
+            },
+            {
+                "win": 800,
+                "chance": 6.065
+            },
+            {
+                "win": 900,
+                "chance": 6.065
+            },
+            {
+                "win": 1000,
+                "chance": 6.065
+            },
+            {
+                "win": 1100,
+                "chance": 6.063
+            },
+            {
+                "win": 1200,
+                "chance": 5.885
+            },
+            {
+                "win": 1300,
+                "chance": 5.885
+            },
+            {
+                "win": 1400,
+                "chance": 5.689
+            },
+            {
+                "win": 1500,
+                "chance": 5.689
+            },
+            {
+                "win": 1600,
+                "chance": 2.452
+            },
+            {
+                "win": 1800,
+                "chance": 1.962
+            },
+            {
+                "win": 2000,
+                "chance": 1.962
+            },
+            {
+                "win": 2500,
+                "chance": 1.471
+            },
+            {
+                "win": 3000,
+                "chance": 1.177
+            },
+            {
+                "win": 3500,
+                "chance": 0.785
+            },
+            {
+                "win": 4000,
+                "chance": 0.981
+            },
+            {
+                "win": 5000,
+                "chance": 0.589
+            },
+            {
+                "win": 7500,
+                "chance": 0.294
+            },
+            {
+                "win": 10000,
+                "chance": 0.196
+            },
+            {
+                "win": 15000,
+                "chance": 0.196
+            },
+            {
+                "win": 50000,
+                "chance": 0.196
+            }
+        ]
+    },
+    "football": {
+        "casino": [
+            {
+                "name": "Резерв",
+                "win": 50,
+                "chance": 4.4
+            },
+            {
+                "name": "Защитник",
+                "win": 100,
+                "chance": 13.383
+            },
+            {
+                "name": "Полузащитник",
+                "win": 500,
+                "chance": 19.998
+            },
+            {
+                "name": "Полузащитник",
+                "win": 700,
+                "chance": 20
+            },
+            {
+                "name": "Вратарь",
+                "win": 900,
+                "chance": 16.317
+            },
+            {
+                "name": "Нападающий",
+                "win": 1100,
+                "chance": 7.777
+            },
+            {
+                "name": "Нападающий",
+                "win": 1300,
+                "chance": 6.466
+            },
+            {
+                "name": "Капитан",
+                "win": 1600,
+                "chance": 7.232
+            },
+            {
+                "name": "Тренер",
+                "win": 2600,
+                "chance": 4.328
+            },
+            {
+                "name": "Легенда (Джекпот)",
+                "win": 50000,
+                "chance": 0.099
+            }
+        ],
+        "honest": [
+            {
+                "name": "Резерв",
+                "win": 50,
+                "chance": 3.491
+            },
+            {
+                "name": "Защитник",
+                "win": 100,
+                "chance": 10.62
+            },
+            {
+                "name": "Полузащитник",
+                "win": 500,
+                "chance": 15.869
+            },
+            {
+                "name": "Полузащитник",
+                "win": 700,
+                "chance": 15.869
+            },
+            {
+                "name": "Вратарь",
+                "win": 900,
+                "chance": 15.868
+            },
+            {
+                "name": "Нападающий",
+                "win": 1100,
+                "chance": 11.494
+            },
+            {
+                "name": "Нападающий",
+                "win": 1300,
+                "chance": 9.557
+            },
+            {
+                "name": "Капитан",
+                "win": 1600,
+                "chance": 10.689
+            },
+            {
+                "name": "Тренер",
+                "win": 2600,
+                "chance": 6.396
+            },
+            {
+                "name": "Легенда (Джекпот)",
+                "win": 50000,
+                "chance": 0.147
+            }
+        ],
+        "boost": [
+            {
+                "name": "Резерв",
+                "win": 50,
+                "chance": 2.872
+            },
+            {
+                "name": "Защитник",
+                "win": 100,
+                "chance": 8.736
+            },
+            {
+                "name": "Полузащитник",
+                "win": 500,
+                "chance": 13.054
+            },
+            {
+                "name": "Полузащитник",
+                "win": 700,
+                "chance": 13.054
+            },
+            {
+                "name": "Вратарь",
+                "win": 900,
+                "chance": 13.054
+            },
+            {
+                "name": "Нападающий",
+                "win": 1100,
+                "chance": 13.054
+            },
+            {
+                "name": "Нападающий",
+                "win": 1300,
+                "chance": 12.905
+            },
+            {
+                "name": "Капитан",
+                "win": 1600,
+                "chance": 14.435
+            },
+            {
+                "name": "Тренер",
+                "win": 2600,
+                "chance": 8.637
+            },
+            {
+                "name": "Легенда (Джекпот)",
+                "win": 50000,
+                "chance": 0.199
+            }
+        ]
+    },
+    "power": {
+        "casino": [
+            {
+                "win": 250,
+                "chance": 3.017
+            },
+            {
+                "win": 500,
+                "chance": 3.061
+            },
+            {
+                "win": 750,
+                "chance": 3.061
+            },
+            {
+                "win": 1000,
+                "chance": 3.061
+            },
+            {
+                "win": 1250,
+                "chance": 2.449
+            },
+            {
+                "win": 1500,
+                "chance": 2.624
+            },
+            {
+                "win": 1750,
+                "chance": 2.449
+            },
+            {
+                "win": 2000,
+                "chance": 2.361
+            },
+            {
+                "win": 2200,
+                "chance": 2.449
+            },
+            {
+                "win": 2400,
+                "chance": 2.186
+            },
+            {
+                "win": 2500,
+                "chance": 2.186
+            },
+            {
+                "win": 2750,
+                "chance": 2.186
+            },
+            {
+                "win": 3000,
+                "chance": 2.186
+            },
+            {
+                "win": 3250,
+                "chance": 2.011
+            },
+            {
+                "win": 3500,
+                "chance": 2.011
+            },
+            {
+                "win": 3750,
+                "chance": 1.749
+            },
+            {
+                "win": 4000,
+                "chance": 1.749
+            },
+            {
+                "win": 4250,
+                "chance": 46.35
+            },
+            {
+                "win": 4500,
+                "chance": 1.549
+            },
+            {
+                "win": 4750,
+                "chance": 1.537
+            },
+            {
+                "win": 5000,
+                "chance": 1.238
+            },
+            {
+                "win": 5200,
+                "chance": 1.115
+            },
+            {
+                "win": 5400,
+                "chance": 0.874
+            },
+            {
+                "win": 5600,
+                "chance": 0.849
+            },
+            {
+                "win": 5800,
+                "chance": 1.289
+            },
+            {
+                "win": 6000,
+                "chance": 0.75
+            },
+            {
+                "win": 6200,
+                "chance": 0.558
+            },
+            {
+                "win": 6400,
+                "chance": 0.376
+            },
+            {
+                "win": 6600,
+                "chance": 0.243
+            },
+            {
+                "win": 6800,
+                "chance": 0.227
+            },
+            {
+                "win": 7000,
+                "chance": 0.177
+            },
+            {
+                "win": 7100,
+                "chance": 0.115
+            },
+            {
+                "win": 7200,
+                "chance": 0.088
+            },
+            {
+                "win": 7300,
+                "chance": 0.043
+            },
+            {
+                "win": 7500,
+                "chance": 0.031
+            },
+            {
+                "win": 8000,
+                "chance": 0.01
+            },
+            {
+                "win": 9000,
+                "chance": 0.01
+            },
+            {
+                "win": 10000,
+                "chance": 0.009
+            },
+            {
+                "win": 12500,
+                "chance": 0.271
+            },
+            {
+                "win": 15000,
+                "chance": 0.196
+            },
+            {
+                "win": 17500,
+                "chance": 0.196
+            },
+            {
+                "win": 20000,
+                "chance": 0.196
+            },
+            {
+                "win": 25000,
+                "chance": 0.14
+            },
+            {
+                "win": 30000,
+                "chance": 0.14
+            },
+            {
+                "win": 40000,
+                "chance": 0.14
+            },
+            {
+                "win": 50000,
+                "chance": 0.14
+            },
+            {
+                "win": 75000,
+                "chance": 0.112
+            },
+            {
+                "win": 100000,
+                "chance": 0.112
+            },
+            {
+                "win": 125000,
+                "chance": 0.112
+            },
+            {
+                "win": 250000,
+                "chance": 0.011
+            }
+        ],
+        "honest": [
+            {
+                "win": 250,
+                "chance": 2.474
+            },
+            {
+                "win": 500,
+                "chance": 2.51
+            },
+            {
+                "win": 750,
+                "chance": 2.51
+            },
+            {
+                "win": 1000,
+                "chance": 2.51
+            },
+            {
+                "win": 1250,
+                "chance": 2.008
+            },
+            {
+                "win": 1500,
+                "chance": 2.152
+            },
+            {
+                "win": 1750,
+                "chance": 2.008
+            },
+            {
+                "win": 2000,
+                "chance": 1.937
+            },
+            {
+                "win": 2200,
+                "chance": 2.008
+            },
+            {
+                "win": 2400,
+                "chance": 1.793
+            },
+            {
+                "win": 2500,
+                "chance": 1.793
+            },
+            {
+                "win": 2750,
+                "chance": 1.793
+            },
+            {
+                "win": 3000,
+                "chance": 1.793
+            },
+            {
+                "win": 3250,
+                "chance": 1.65
+            },
+            {
+                "win": 3500,
+                "chance": 1.65
+            },
+            {
+                "win": 3750,
+                "chance": 1.434
+            },
+            {
+                "win": 4000,
+                "chance": 1.434
+            },
+            {
+                "win": 4250,
+                "chance": 1.506
+            },
+            {
+                "win": 4500,
+                "chance": 1.578
+            },
+            {
+                "win": 4750,
+                "chance": 1.793
+            },
+            {
+                "win": 5000,
+                "chance": 51.184
+            },
+            {
+                "win": 5200,
+                "chance": 1.371
+            },
+            {
+                "win": 5400,
+                "chance": 1.075
+            },
+            {
+                "win": 5600,
+                "chance": 1.043
+            },
+            {
+                "win": 5800,
+                "chance": 1.585
+            },
+            {
+                "win": 6000,
+                "chance": 0.922
+            },
+            {
+                "win": 6200,
+                "chance": 0.686
+            },
+            {
+                "win": 6400,
+                "chance": 0.462
+            },
+            {
+                "win": 6600,
+                "chance": 0.299
+            },
+            {
+                "win": 6800,
+                "chance": 0.279
+            },
+            {
+                "win": 7000,
+                "chance": 0.217
+            },
+            {
+                "win": 7100,
+                "chance": 0.142
+            },
+            {
+                "win": 7200,
+                "chance": 0.108
+            },
+            {
+                "win": 7300,
+                "chance": 0.053
+            },
+            {
+                "win": 7500,
+                "chance": 0.038
+            },
+            {
+                "win": 8000,
+                "chance": 0.011
+            },
+            {
+                "win": 9000,
+                "chance": 0.009
+            },
+            {
+                "win": 10000,
+                "chance": 0.01
+            },
+            {
+                "win": 12500,
+                "chance": 0.333
+            },
+            {
+                "win": 15000,
+                "chance": 0.241
+            },
+            {
+                "win": 17500,
+                "chance": 0.241
+            },
+            {
+                "win": 20000,
+                "chance": 0.241
+            },
+            {
+                "win": 25000,
+                "chance": 0.172
+            },
+            {
+                "win": 30000,
+                "chance": 0.172
+            },
+            {
+                "win": 40000,
+                "chance": 0.172
+            },
+            {
+                "win": 50000,
+                "chance": 0.172
+            },
+            {
+                "win": 75000,
+                "chance": 0.138
+            },
+            {
+                "win": 100000,
+                "chance": 0.138
+            },
+            {
+                "win": 125000,
+                "chance": 0.138
+            },
+            {
+                "win": 250000,
+                "chance": 0.014
+            }
+        ],
+        "boost": [
+            {
+                "win": 250,
+                "chance": 3.233
+            },
+            {
+                "win": 500,
+                "chance": 3.279
+            },
+            {
+                "win": 750,
+                "chance": 3.279
+            },
+            {
+                "win": 1000,
+                "chance": 3.279
+            },
+            {
+                "win": 1250,
+                "chance": 2.624
+            },
+            {
+                "win": 1500,
+                "chance": 2.811
+            },
+            {
+                "win": 1750,
+                "chance": 2.624
+            },
+            {
+                "win": 2000,
+                "chance": 2.53
+            },
+            {
+                "win": 2200,
+                "chance": 2.624
+            },
+            {
+                "win": 2400,
+                "chance": 2.342
+            },
+            {
+                "win": 2500,
+                "chance": 2.342
+            },
+            {
+                "win": 2750,
+                "chance": 2.342
+            },
+            {
+                "win": 3000,
+                "chance": 2.342
+            },
+            {
+                "win": 3250,
+                "chance": 2.155
+            },
+            {
+                "win": 3500,
+                "chance": 2.155
+            },
+            {
+                "win": 3750,
+                "chance": 1.874
+            },
+            {
+                "win": 4000,
+                "chance": 1.874
+            },
+            {
+                "win": 4250,
+                "chance": 1.968
+            },
+            {
+                "win": 4500,
+                "chance": 2.061
+            },
+            {
+                "win": 4750,
+                "chance": 2.342
+            },
+            {
+                "win": 5000,
+                "chance": 2.155
+            },
+            {
+                "win": 5200,
+                "chance": 2.155
+            },
+            {
+                "win": 5400,
+                "chance": 1.874
+            },
+            {
+                "win": 5600,
+                "chance": 2.015
+            },
+            {
+                "win": 5800,
+                "chance": 31.449
+            },
+            {
+                "win": 6000,
+                "chance": 1.753
+            },
+            {
+                "win": 6200,
+                "chance": 1.305
+            },
+            {
+                "win": 6400,
+                "chance": 0.879
+            },
+            {
+                "win": 6600,
+                "chance": 0.568
+            },
+            {
+                "win": 6800,
+                "chance": 0.531
+            },
+            {
+                "win": 7000,
+                "chance": 0.413
+            },
+            {
+                "win": 7100,
+                "chance": 0.269
+            },
+            {
+                "win": 7200,
+                "chance": 0.206
+            },
+            {
+                "win": 7300,
+                "chance": 0.101
+            },
+            {
+                "win": 7500,
+                "chance": 0.072
+            },
+            {
+                "win": 8000,
+                "chance": 0.021
+            },
+            {
+                "win": 9000,
+                "chance": 0.017
+            },
+            {
+                "win": 10000,
+                "chance": 0.009
+            },
+            {
+                "win": 12500,
+                "chance": 0.634
+            },
+            {
+                "win": 15000,
+                "chance": 0.458
+            },
+            {
+                "win": 17500,
+                "chance": 0.458
+            },
+            {
+                "win": 20000,
+                "chance": 0.458
+            },
+            {
+                "win": 25000,
+                "chance": 0.327
+            },
+            {
+                "win": 30000,
+                "chance": 0.327
+            },
+            {
+                "win": 40000,
+                "chance": 0.327
+            },
+            {
+                "win": 50000,
+                "chance": 0.327
+            },
+            {
+                "win": 75000,
+                "chance": 0.262
+            },
+            {
+                "win": 100000,
+                "chance": 0.262
+            },
+            {
+                "win": 125000,
+                "chance": 0.262
+            },
+            {
+                "win": 250000,
+                "chance": 0.026
+            }
+        ]
+    }
+};
+  }
+
+  static getSotkaConfig() { return this.getCasesData().sotka[getRtpMode()]; }
+  static getPyzhikConfig() { return this.getCasesData().pyzh[getRtpMode()]; }
+  static getBasicConfig() { return this.getCasesData().basic[getRtpMode()]; }
+  static getFootballConfig() { return this.getCasesData().football[getRtpMode()]; }
+  static getMightConfig() { return this.getCasesData().power[getRtpMode()]; }
+
+  static openCase(itemsConfig) {
+    const r = Math.random() * 100;
+    let sum = 0;
+    for (let i = 0; i < itemsConfig.length; i++) {
+      sum += itemsConfig[i].chance;
+      if (r <= sum) return { item: itemsConfig[i], index: i };
+    }
+    return { item: itemsConfig[0], index: 0 };
+  }
+}
+
+class UpgradeModule {
+  static calculateChance(playerSum, targetSum) {
+    let mode = getRtpMode();
+    let targetRTP = mode === 'honest' ? 100 : (mode === 'boost' ? 115 : 95);
+    return Math.min(100, (playerSum / targetSum) * targetRTP);
+  }
+
+  static simulateUpgrade(playerSum, targetSum) {
+    const chance = this.calculateChance(playerSum, targetSum);
+    const r = Math.random() * 100;
+    return {
+      success: r <= chance,
+      chance: chance,
+      roll: r
+    };
+  }
+}
+
+class CrashModule {
+  static generateCrashPoint() {
+    let mode = getRtpMode();
+    let targetRTP = mode === 'honest' ? 1.00 : (mode === 'boost' ? 1.15 : 0.95);
+    const multiplier = targetRTP / (1 - Math.random());
+    return Math.floor(multiplier * 100) / 100; // truncate to 2 decimal places
+  }
+}
+
+class RouletteModule {
+  static spin(betColor) {
+    let mode = getRtpMode();
+    let targetRTP = mode === 'honest' ? 1.00 : (mode === 'boost' ? 1.15 : 0.95);
+    
+    // x2.5 for red/black, x14.375 for green
+    let winChance = betColor === 'green' ? (targetRTP / 14.375) * 100 : (targetRTP / 2.50) * 100;
+    
+    let r = Math.random() * 100;
+    if (r < winChance) {
+      return { color: betColor, multiplier: betColor === 'green' ? 14.375 : 2.50 };
+    } else {
+      let others = ['red', 'black', 'green'].filter(c => c !== betColor);
+      let failColor = others[Math.floor(Math.random() * others.length)];
+      return { color: failColor, multiplier: failColor === 'green' ? 14.375 : 2.50 };
+    }
+  }
+}
+
+export { CaseModule, UpgradeModule, CrashModule, RouletteModule };
